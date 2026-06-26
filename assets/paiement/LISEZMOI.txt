@@ -1,0 +1,7 @@
+Déposez ici les logos des moyens de paiement :
+
+- wave.png           → le logo Wave (pingouin sur fond bleu)
+- orange-money.png   → le logo Orange Money
+
+Les boutons "Payer" du site utilisent ces deux fichiers.
+Si un fichier est absent, seul le texte (Wave / Orange Money) s'affiche.

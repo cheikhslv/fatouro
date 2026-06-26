@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FATOURO — Prêt-à-porter sénégalais | Dakar</title>
+  <meta name="description" content="Fatouro, maison de prêt-à-porter sénégalaise. Des pièces élégantes et confortables pour femmes, hommes et enfants, inspirées de la mode africaine." />
+  <meta name="theme-color" content="#0e0e0e" />
+  <meta property="og:title" content="FATOURO — Prêt-à-porter sénégalais | Dakar" />
+  <meta property="og:description" content="L'élégance sénégalaise, taillée pour aujourd'hui." />
+  <meta property="og:image" content="assets/logo.jpeg" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a href="index.html" class="nav__brand"><img src="assets/logo.jpeg" alt="Fatouro" class="nav__logo" /></a>
+      <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <ul class="nav__menu" id="navMenu">
+        <li><a href="index.html" class="active" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="femmes.html" data-fr="Femmes" data-en="Women">Femmes</a></li>
+        <li><a href="hommes.html" data-fr="Hommes" data-en="Men">Hommes</a></li>
+        <li><a href="enfants.html" data-fr="Enfants" data-en="Children">Enfants</a></li>
+        <li><a href="#contact" data-fr="Contact" data-en="Contact">Contact</a></li>
+        <li class="nav__mobile-cta"><a href="#contact" class="nav__cta" data-fr="Commander" data-en="Order">Commander</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button id="langToggle" class="lang-btn">EN</button>
+        <a href="#contact" class="nav__cta" data-fr="Commander" data-en="Order">Commander</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <img class="hero__img" src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?auto=format&fit=crop&w=1700&q=75" alt="Campagne Fatouro" />
+    <div class="hero__overlay"></div>
+    <div class="container hero__inner">
+      <p class="hero__overline" data-fr="Prêt-à-porter · Dakar" data-en="Ready-to-wear · Dakar">Prêt-à-porter · Dakar</p>
+      <h1 class="hero__title" data-fr="L'élégance sénégalaise, taillée pour aujourd'hui." data-en="Senegalese elegance, tailored for today.">L'élégance sénégalaise, taillée pour aujourd'hui.</h1>
+      <p class="hero__sub" data-fr="Des pièces raffinées et confortables pour femmes, hommes et enfants — inspirées de la richesse de la mode africaine." data-en="Refined, comfortable pieces for women, men and children — inspired by the richness of African fashion.">Des pièces raffinées et confortables pour femmes, hommes et enfants — inspirées de la richesse de la mode africaine.</p>
+      <div class="hero__actions">
+        <a href="#collections" class="btn btn--gold" data-fr="Découvrir la collection" data-en="Discover the collection">Découvrir la collection</a>
+        <a href="#contact" class="btn btn--ghost" data-fr="Commander" data-en="Order">Commander</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COLLECTIONS ===================== -->
+  <section class="section" id="collections">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow" data-fr="Collections" data-en="Collections">Collections</p>
+          <h2 class="section-head__title" data-fr="Trois univers, une même exigence" data-en="Three worlds, one standard">Trois univers, une même exigence</h2>
+        </div>
+        <p class="section-head__intro" data-fr="Chaque collection est pensée à Dakar, taillée pour durer." data-en="Each collection is designed in Dakar, tailored to last.">Chaque collection est pensée à Dakar, taillée pour durer.</p>
+      </div>
+
+      <div class="cat-grid">
+        <a href="femmes.html" class="cat-card" data-reveal style="--i:0">
+          <img class="cat-card__img" src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?auto=format&fit=crop&w=800&q=75" alt="Collection Femmes" />
+          <div class="cat-card__overlay"></div>
+          <div class="cat-card__label">
+            <h3 data-fr="Femmes" data-en="Women">Femmes</h3>
+            <span data-fr="Découvrir →" data-en="Explore →">Découvrir →</span>
+          </div>
+        </a>
+        <a href="hommes.html" class="cat-card" data-reveal style="--i:1">
+          <img class="cat-card__img" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=75" alt="Collection Hommes" />
+          <div class="cat-card__overlay"></div>
+          <div class="cat-card__label">
+            <h3 data-fr="Hommes" data-en="Men">Hommes</h3>
+            <span data-fr="Découvrir →" data-en="Explore →">Découvrir →</span>
+          </div>
+        </a>
+        <a href="enfants.html" class="cat-card" data-reveal style="--i:2">
+          <img class="cat-card__img" src="https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?auto=format&fit=crop&w=800&q=75" alt="Collection Enfants" />
+          <div class="cat-card__overlay"></div>
+          <div class="cat-card__label">
+            <h3 data-fr="Enfants" data-en="Children">Enfants</h3>
+            <span data-fr="Découvrir →" data-en="Explore →">Découvrir →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STORY ===================== -->
+  <section class="story">
+    <div class="container story__grid">
+      <div class="story__media" data-reveal>
+        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=900&q=75" alt="L'atelier Fatouro" />
+      </div>
+      <div class="story__body" data-reveal>
+        <p class="eyebrow eyebrow--dark" data-fr="La maison" data-en="The house">La maison</p>
+        <h2 class="story__title" data-fr="L'élégance africaine, pour toute la famille" data-en="African elegance, for the whole family">L'élégance africaine, pour toute la famille</h2>
+        <p data-fr="Fatouro est une maison de prêt-à-porter sénégalaise. Nous créons des vêtements élégants et confortables qui célèbrent la mode africaine — pour les femmes, les hommes et les enfants." data-en="Fatouro is a Senegalese ready-to-wear house. We craft elegant, comfortable garments that celebrate African fashion — for women, men and children.">Fatouro est une maison de prêt-à-porter sénégalaise. Nous créons des vêtements élégants et confortables qui célèbrent la mode africaine — pour les femmes, les hommes et les enfants.</p>
+        <p data-fr="Chaque pièce mêle savoir-faire, matières nobles et coupes pensées pour la vie d'aujourd'hui." data-en="Each piece blends craftsmanship, fine materials and cuts made for life today.">Chaque pièce mêle savoir-faire, matières nobles et coupes pensées pour la vie d'aujourd'hui.</p>
+        <a href="#contact" class="story__link" data-fr="Nous écrire" data-en="Write to us">Nous écrire</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOUVEAUTÉS ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="news-head" data-reveal>
+        <p class="eyebrow" data-fr="Nouveautés" data-en="New arrivals">Nouveautés</p>
+        <h2 data-fr="Les dernières pièces" data-en="The latest pieces">Les dernières pièces</h2>
+      </div>
+      <div class="product-grid" id="nouveautesGrid">
+        <a href="femmes.html" class="product" data-reveal style="--i:0">
+          <div class="product__frame"><img src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?auto=format&fit=crop&w=600&q=75" alt="Boubou brodé" /></div>
+          <h4 class="product__name" data-fr="Boubou brodé" data-en="Embroidered boubou">Boubou brodé</h4>
+          <p class="product__meta" data-fr="Sur commande" data-en="Made to order">Sur commande</p>
+        </a>
+        <a href="femmes.html" class="product" data-reveal style="--i:1">
+          <div class="product__frame"><img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=75" alt="Ensemble wax" /></div>
+          <h4 class="product__name" data-fr="Ensemble wax" data-en="Wax set">Ensemble wax</h4>
+          <p class="product__meta" data-fr="Sur commande" data-en="Made to order">Sur commande</p>
+        </a>
+        <a href="hommes.html" class="product" data-reveal style="--i:2">
+          <div class="product__frame"><img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=75" alt="Caftan en lin" /></div>
+          <h4 class="product__name" data-fr="Caftan en lin" data-en="Linen kaftan">Caftan en lin</h4>
+          <p class="product__meta" data-fr="Sur commande" data-en="Made to order">Sur commande</p>
+        </a>
+        <a href="enfants.html" class="product" data-reveal style="--i:3">
+          <div class="product__frame"><img src="https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?auto=format&fit=crop&w=600&q=75" alt="Tenue enfant" /></div>
+          <h4 class="product__name" data-fr="Tenue enfant" data-en="Children's outfit">Tenue enfant</h4>
+          <p class="product__meta" data-fr="Sur commande" data-en="Made to order">Sur commande</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BOUTIQUE / CONTACT ===================== -->
+  <section class="contact" id="contact">
+    <div class="container contact__grid">
+      <div class="contact__body" data-reveal>
+        <p class="eyebrow" data-fr="Contact" data-en="Contact">Contact</p>
+        <h2 class="contact__title" data-fr="Passez commande" data-en="Place your order">Passez commande</h2>
+        <div class="contact__info">
+          <div class="info-row">
+            <p class="info-row__label" data-fr="Téléphone & WhatsApp" data-en="Phone & WhatsApp">Téléphone & WhatsApp</p>
+            <p class="info-row__value"><a href="tel:+221784490303">+221 78 449 03 03</a></p>
+          </div>
+          <div class="info-row">
+            <p class="info-row__label" data-fr="Commandes" data-en="Orders">Commandes</p>
+            <p class="info-row__value" data-fr="Via WhatsApp & Instagram" data-en="Via WhatsApp & Instagram">Via WhatsApp & Instagram</p>
+          </div>
+          <div class="info-row">
+            <p class="info-row__label" data-fr="Livraison" data-en="Delivery">Livraison</p>
+            <p class="info-row__value" data-fr="Sur demande" data-en="On request">Sur demande</p>
+          </div>
+        </div>
+        <div class="contact__actions">
+          <a class="btn btn--gold" id="whatsappLink" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8 1-.2.2-.3.2-.5.1-1.3-.6-2.1-1.1-3-2.6-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+            <span data-fr="Commander sur WhatsApp" data-en="Order on WhatsApp">Commander sur WhatsApp</span>
+          </a>
+          <a class="btn btn--ghost" id="instagramLink" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+            <span>Instagram</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact__media" data-reveal>
+        <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=900&q=75" alt="Boutique Fatouro" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container footer__top">
+      <div class="footer__brand">
+        <img src="assets/logo.jpeg" alt="Fatouro" />
+        <p data-fr="Prêt-à-porter sénégalais. Élégance et confort, inspirés de la mode africaine." data-en="Senegalese ready-to-wear. Elegance and comfort, inspired by African fashion.">Prêt-à-porter sénégalais. Élégance et confort, inspirés de la mode africaine.</p>
+      </div>
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4 data-fr="Collections" data-en="Collections">Collections</h4>
+          <a href="femmes.html" data-fr="Femmes" data-en="Women">Femmes</a>
+          <a href="hommes.html" data-fr="Hommes" data-en="Men">Hommes</a>
+          <a href="enfants.html" data-fr="Enfants" data-en="Children">Enfants</a>
+        </div>
+        <div class="footer__col">
+          <h4 data-fr="Maison" data-en="House">Maison</h4>
+          <a href="#contact" data-fr="La boutique" data-en="The boutique">La boutique</a>
+          <a href="#contact" data-fr="Contact" data-en="Contact">Contact</a>
+        </div>
+        <div class="footer__col">
+          <h4 data-fr="Suivez" data-en="Follow">Suivez</h4>
+          <a id="footerWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          <a id="footerInstagram" href="#" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>© <span id="year"></span> Fatouro</p>
+      <p data-fr="Inspiré de la mode africaine" data-en="Inspired by African fashion">Inspiré de la mode africaine</p>
+    </div>
+  </footer>
+
+  <a class="fab-whatsapp" id="fabWhatsapp" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16 .5C7.4.5.5 7.4.5 16c0 2.8.7 5.4 2.1 7.8L.4 31.6l8-2.1c2.3 1.2 4.9 1.9 7.6 1.9 8.6 0 15.5-6.9 15.5-15.5S24.6.5 16 .5zm0 28.2c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-4.7 1.2 1.3-4.6-.3-.5a12.6 12.6 0 01-1.9-6.7C2.5 8.5 8.5 2.5 16 2.5S29.5 8.5 29.5 16 23.5 28.7 16 28.7zm7.3-9.5c-.4-.2-2.4-1.2-2.7-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.7-.6-3.2-2-1.2-1.1-2-2.4-2.2-2.8-.2-.4 0-.6.2-.8l.6-.7c.2-.2.3-.4.4-.6.1-.2 0-.5 0-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.6-.7-.9-.7h-.7c-.2 0-.6.1-1 .5s-1.4 1.4-1.4 3.4 1.4 3.9 1.6 4.2c.2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.2.8.9.3 1.8.3 2.4.2.7-.1 2.4-1 2.7-1.9.3-.9.3-1.7.2-1.9-.1-.2-.3-.3-.7-.5z"/></svg>
+  </a>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
