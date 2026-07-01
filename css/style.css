@@ -301,6 +301,30 @@ a { color: inherit; text-decoration: none; }
 .modal__price { font-size: 20px; color: var(--cream); margin-bottom: 6px; }
 .modal__stock { font-size: 14px; color: var(--gold-2); margin-bottom: 28px; }
 .modal__stock--out { color: #c98b6a; }
+
+/* Couleurs disponibles — pastilles sur la carte */
+.product__swatches { display: flex; align-items: center; gap: 7px; margin-top: 12px; }
+.product__swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(244,239,230,.28); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.product__swatch-more { font-size: 11px; letter-spacing: .04em; color: var(--muted-2); }
+
+/* Couleurs disponibles — sélecteur dans la fiche */
+.modal__colors { margin-bottom: 26px; }
+.modal__colors[hidden] { display: none; }
+.modal__colors-title { font-size: 13px; letter-spacing: .04em; color: var(--muted); margin-bottom: 12px; }
+.modal__colors-title span { color: var(--cream); }
+.swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+.swatch {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 6px 14px 6px 8px; border: 1px solid var(--line);
+  border-radius: 30px; background: transparent; color: var(--cream);
+  font-size: 13px; cursor: pointer; transition: border-color .2s, background .2s;
+}
+.swatch:hover { border-color: var(--gold-2); }
+.swatch.is-active { border-color: var(--gold); background: rgba(201,162,75,.12); }
+.swatch__dot { width: 17px; height: 17px; border-radius: 50%; border: 1px solid rgba(244,239,230,.3); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); flex: none; }
+.swatch__dot--unknown { background: repeating-linear-gradient(45deg, #888, #888 3px, #555 3px, #555 6px); }
+.swatch__name { line-height: 1; }
+
 .modal__actions { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
 .modal__actions .btn { justify-content: center; }
 /* l'attribut hidden doit l'emporter sur display:flex */

@@ -10,6 +10,8 @@ const CONFIG = {
   whatsapp: "221784490303",
   // Identifiant Instagram (sans @)
   instagram: "fatouro_the_brand",
+  // Identifiant TikTok (sans @)
+  tiktok: "fatourobrand",
   // --- MODE 1 : un lien CSV publié par catégorie (actif) ---
   // (Fichier → Publier sur le web → CSV, un lien par onglet)
   sheetCsvByCategory: {
@@ -34,7 +36,7 @@ const CONFIG = {
   paiement: {
     wave: {
       // Lien de paiement Wave Business, ex : "https://pay.wave.com/m/XXXXXXXX/c/sn/"
-      lien: "",
+      lien: "https://pay.wave.com/m/M_sn_UpZC8ZoA-Sq8/c/sn/",
     },
     orange: {
       // Code marchand Orange Money, ex : "391XXXX"  +  le numéro qui reçoit
@@ -117,6 +119,7 @@ function formatPrix(v) {
 function appliquerLiens() {
   const wa = lienWhatsApp();
   const insta = `https://instagram.com/${CONFIG.instagram}`;
+  const tiktok = `https://www.tiktok.com/@${CONFIG.tiktok}`;
   ["whatsappLink", "fabWhatsapp", "ctaWhatsapp", "footerWhatsapp"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.href = wa;
@@ -124,6 +127,10 @@ function appliquerLiens() {
   ["instagramLink", "footerInstagram"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.href = insta;
+  });
+  ["tiktokLink", "footerTiktok"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.href = tiktok;
   });
 }
 
@@ -139,6 +146,8 @@ const ENTETES = {
   envente: "envente", disponible: "envente", available: "envente",
   nomen: "en", nameen: "en",
   nouveaute: "nouveaute", nouveautes: "nouveaute", new: "nouveaute",
+  couleur: "couleurs", couleurs: "couleurs",
+  color: "couleurs", colors: "couleurs", colour: "couleurs", colours: "couleurs",
 };
 
 function parseCSV(text) {
@@ -159,7 +168,7 @@ function parseCSV(text) {
 }
 
 // Ordre des colonnes par défaut si l'onglet n'a PAS de ligne de titres.
-const COLONNES_DEFAUT = ["nom", "categorie", "prix", "stock", "image", "envente", "en", "nouveaute"];
+const COLONNES_DEFAUT = ["nom", "categorie", "prix", "stock", "image", "envente", "en", "nouveaute", "couleurs"];
 
 // Transforme les lignes CSV en articles. categorieParDefaut = nom de l'onglet (mode multi-onglets).
 function lignesVersArticles(texteCsv, categorieParDefaut) {
@@ -250,6 +259,70 @@ function imagesDe(p) {
     .filter(Boolean);
 }
 
+// Liste des couleurs disponibles (colonne « Couleurs » du tableur),
+// séparées par virgule / point-virgule / barre verticale / retour ligne.
+function couleursDe(p) {
+  return (p.couleurs || "")
+    .split(/[,;|\n]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+// Correspondance « nom de couleur » -> code hexadécimal pour la pastille.
+// Le nom reste toujours affiché en toutes lettres ; ceci ne sert qu'au point coloré.
+const COULEURS_HEX = {
+  rouge: "#c0392b", bordeaux: "#6d1f2c", rose: "#e78ba8", fuchsia: "#c2185b", corail: "#ff6f5e",
+  orange: "#e67e22", jaune: "#f1c40f", moutarde: "#c9962f", or: "#d4af37", dore: "#d4af37",
+  vert: "#2e8b57", kaki: "#6b7b3a", olive: "#808000", turquoise: "#1abc9c", emeraude: "#0f8a5f",
+  bleu: "#2c5fa8", marine: "#1f2d50", ciel: "#7fb6e6", indigo: "#3f51b5",
+  violet: "#8e44ad", parme: "#b497bd", mauve: "#b784a7",
+  marron: "#7b4a2b", brun: "#5e3a1e", chocolat: "#4e342e", taupe: "#8b7e6a", camel: "#c19a6b",
+  beige: "#d8c3a5", creme: "#efe6d3", ivoire: "#f4efe6", sable: "#dcc9a0", nude: "#e3c4a8",
+  blanc: "#f3f0e9", gris: "#9a958c", argent: "#c4c4c4", noir: "#1c1a17", multicolore: "",
+};
+function hexCouleur(nom) {
+  const clean = norm(nom);
+  const k = clean.replace(/[^a-z]/g, "");
+  if (k in COULEURS_HEX) return COULEURS_HEX[k] || null;
+  // Sinon, on tente chaque mot (ex. « bleu ciel » -> « bleu » ou « ciel »).
+  for (const m of clean.split(/\s+/)) {
+    const w = m.replace(/[^a-z]/g, "");
+    if (COULEURS_HEX[w]) return COULEURS_HEX[w];
+  }
+  return null;
+}
+
+// Liste des couleurs contenues dans un libellé.
+// « bleu et jaune » -> 2 couleurs (cercle bi-couleur) ; « bleu ciel » -> 1 seule couleur.
+function hexsCouleur(nom) {
+  const clean = norm(nom);
+  const whole = clean.replace(/[^a-z]/g, "");
+  if (whole in COULEURS_HEX) return COULEURS_HEX[whole] ? [COULEURS_HEX[whole]] : [];
+  // On ne découpe que s'il y a un séparateur explicite ( et  /  &  +  , ).
+  if (/\bet\b|[/&+,]/.test(clean)) {
+    const out = [];
+    for (const m of clean.split(/\bet\b|[\s/&+,-]+/)) {
+      const w = m.replace(/[^a-z]/g, "");
+      if (w && COULEURS_HEX[w]) out.push(COULEURS_HEX[w]);
+    }
+    if (out.length) return out;
+  }
+  const h = hexCouleur(nom);
+  return h ? [h] : [];
+}
+
+// Fond CSS d'une pastille : couleur unie, ou dégradé à tranches nettes si plusieurs couleurs.
+function fondCouleur(nom) {
+  const hs = hexsCouleur(nom);
+  if (!hs.length) return null;
+  if (hs.length === 1) return hs[0];
+  const n = hs.length;
+  const stops = hs
+    .map((h, i) => `${h} ${((i * 100) / n).toFixed(2)}% ${(((i + 1) * 100) / n).toFixed(2)}%`)
+    .join(", ");
+  return `linear-gradient(135deg, ${stops})`;
+}
+
 function carteProduit(p, i) {
   const nom = p.nom;
   const nomEn = p.en || nom;
@@ -258,6 +331,7 @@ function carteProduit(p, i) {
   const prix = formatPrix(p.prix);
   const stockNum = parseInt((p.stock == null ? "" : p.stock).toString().trim(), 10);
   const images = imagesDe(p);
+  const couleurs = couleursDe(p);
   const prixNum = (p.prix || "").toString().replace(/[^\d]/g, "");
 
   // Enregistre le produit pour la fiche détaillée
@@ -266,6 +340,7 @@ function carteProduit(p, i) {
     stock: isNaN(stockNum) ? null : stockNum,
     prixNum: prixNum ? parseInt(prixNum, 10) : null,
     images,
+    couleurs,
   }) - 1;
 
   const visuel = images.length
@@ -287,12 +362,23 @@ function carteProduit(p, i) {
 
   const cta = `<span class="product__order" data-fr="Voir l'article →" data-en="View item →">Voir l'article →</span>`;
 
+  const swatches = couleurs.length
+    ? `<div class="product__swatches" aria-label="Couleurs disponibles">${couleurs
+        .slice(0, 6)
+        .map((c) => {
+          const bg = fondCouleur(c);
+          return `<span class="product__swatch" title="${c}" style="background:${bg || "transparent"}"></span>`;
+        })
+        .join("")}${couleurs.length > 6 ? `<span class="product__swatch-more">+${couleurs.length - 6}</span>` : ""}</div>`
+    : "";
+
   return `
     <div class="product${epuise ? " product--out" : ""}" role="button" tabindex="0" data-vue="${idx}" data-reveal style="--i:${i % 4}">
       <div class="product__frame">${visuel}${badge}${multi}</div>
       <h4 class="product__name" data-fr="${nom}" data-en="${nomEn}">${nom}</h4>
       ${meta}
       ${stockLine}
+      ${swatches}
       ${cta}
     </div>`;
 }
@@ -325,6 +411,7 @@ function creerModal() {
         <h3 class="modal__name" id="modalName"></h3>
         <p class="modal__price" id="modalPrice"></p>
         <p class="modal__stock" id="modalStock"></p>
+        <div class="modal__colors" id="modalColors" hidden></div>
         <div class="modal__actions" id="modalActions">
           <button class="btn btn--gold" id="modalPay" data-fr="Payer" data-en="Pay">Payer</button>
           <a class="btn btn--ghost" id="modalOrder" href="#" target="_blank" rel="noopener"></a>
@@ -391,18 +478,56 @@ function afficherImage() {
   majLienCommande();
 }
 
-// Met à jour le lien WhatsApp avec le nom, le prix ET le lien de la photo affichée.
+// Transforme un lien d'image DIRECT en lien « page » : WhatsApp affiche alors la photo en aperçu.
+// postimages :  https://i.postimg.cc/<ID>/<fichier>.jpg  ->  https://postimg.cc/<ID>
+function lienApercu(url) {
+  const m = (url || "").match(/^https?:\/\/i\.postimg\.cc\/([^/]+)\//i);
+  return m ? `https://postimg.cc/${m[1]}` : url;
+}
+
+// Met à jour le lien WhatsApp avec le nom, la couleur, le prix ET la photo affichée.
 function majLienCommande() {
   const p = modalEtat.p;
   if (!p) return;
   const order = document.getElementById("modalOrder");
   if (!order) return;
   const img = modalEtat.images[modalEtat.i];
+  const coul = modalEtat.couleur ? ` en ${modalEtat.couleur}` : "";
   const base = p.epuise
-    ? `Bonjour Fatouro, le modèle « ${p.nom} » (${p.cat}) est-il de nouveau disponible ?`
-    : `Bonjour Fatouro, je suis intéressé(e) par le modèle « ${p.nom} » (${p.cat})${p.prix ? " à " + p.prix : ""}. Est-il disponible ?`;
-  const msg = img ? `${base}\nPhoto : ${img}` : base;
+    ? `Bonjour Fatouro, le modèle « ${p.nom} »${coul} (${p.cat}) est-il de nouveau disponible ?`
+    : `Bonjour Fatouro, je suis intéressé(e) par le modèle « ${p.nom} »${coul} (${p.cat})${p.prix ? " à " + p.prix : ""}. Est-il disponible ?`;
+  // L'URL de la photo (convertie en lien « page ») est placée SEULE sur sa ligne :
+  // WhatsApp affiche alors la photo en aperçu au-dessus du message.
+  const msg = img ? `${base}\n${lienApercu(img)}` : base;
   order.href = lienWhatsApp(msg);
+}
+
+// Affiche les pastilles de couleur dans la fiche et gère la sélection.
+function rendreCouleurs() {
+  const wrap = document.getElementById("modalColors");
+  if (!wrap) return;
+  const cs = modalEtat.couleurs || [];
+  if (!cs.length) { wrap.hidden = true; wrap.innerHTML = ""; return; }
+  wrap.hidden = false;
+  const titre = LANG === "en" ? "Color" : "Couleur";
+  wrap.innerHTML =
+    `<p class="modal__colors-title">${titre}${modalEtat.couleur ? ` : <span>${modalEtat.couleur}</span>` : ""}</p>` +
+    `<div class="swatches">` +
+    cs.map((c, k) => {
+      const bg = fondCouleur(c);
+      const dot = bg
+        ? `<span class="swatch__dot" style="background:${bg}"></span>`
+        : `<span class="swatch__dot swatch__dot--unknown"></span>`;
+      return `<button type="button" class="swatch${c === modalEtat.couleur ? " is-active" : ""}" data-c="${k}" title="${c}">${dot}<span class="swatch__name">${c}</span></button>`;
+    }).join("") +
+    `</div>`;
+  wrap.querySelectorAll(".swatch").forEach((b) =>
+    b.addEventListener("click", () => {
+      modalEtat.couleur = cs[+b.dataset.c];
+      rendreCouleurs();
+      majLienCommande();
+    })
+  );
 }
 
 function changerImage(d) {
@@ -415,7 +540,13 @@ function changerImage(d) {
 function ouvrirModal(p) {
   creerModal();
   const enAnglais = LANG === "en";
-  modalEtat = { images: p.images || [], i: 0, p };
+  modalEtat = {
+    images: p.images || [],
+    i: 0,
+    p,
+    couleurs: p.couleurs || [],
+    couleur: (p.couleurs && p.couleurs[0]) || null,
+  };
 
   document.getElementById("modalCat").textContent = p.cat || "";
   document.getElementById("modalName").textContent = enAnglais ? p.nomEn : p.nom;
@@ -448,6 +579,7 @@ function ouvrirModal(p) {
     t.addEventListener("click", () => { modalEtat.i = +t.dataset.k; afficherImage(); })
   );
 
+  rendreCouleurs();
   fermerPaiement(); // repart sur le choix d'actions, panneau paiement masqué
   afficherImage();
   const el = document.getElementById("produitModal");
@@ -472,7 +604,7 @@ function ouvrirPaiement() {
   traduire();
 }
 
-// Validation du formulaire -> on passe au choix du mode de paiement
+// Validation du formulaire -> choix du mode de paiement (Wave / Orange Money)
 function soumettreFormulaire(e) {
   e.preventDefault();
   const f = e.target;
@@ -483,6 +615,10 @@ function soumettreFormulaire(e) {
     tel: f.tel.value.trim(),
   };
   f.hidden = true;
+  const titre = document.querySelector("#payPanel .pay__title");
+  const methodes = document.querySelector("#payPanel .pay__methods");
+  if (titre) titre.style.display = "";
+  if (methodes) methodes.style.display = "";
   document.getElementById("payDetails").innerHTML = "";
   document.getElementById("payPanel").hidden = false;
   traduire();
@@ -516,11 +652,13 @@ async function envoyerRecu(methode) {
   if (!CONFIG.appsScriptUrl) return false; // pas encore configuré
   const b = modalEtat.buyer || {};
   const p = modalEtat.p || {};
+  const couleur = modalEtat.couleur || "";
   const params = {
     customer_name: `${b.prenom} ${b.nom}`.trim(),
     customer_email: b.email,
     customer_phone: b.tel,
-    article: p.nom || "",
+    article: (p.nom || "") + (couleur ? ` (${couleur})` : ""),
+    color: couleur,
     category: p.cat || "",
     price: p.prix || (p.prixNum ? p.prixNum + " FCFA" : ""),
     payment_method: methode,
@@ -543,8 +681,8 @@ async function envoyerRecu(methode) {
 function noteRecu(ok) {
   if (emailConfigure()) {
     return ok
-      ? `<p class="pay__recu">${LANG === "en" ? "✓ Receipt sent to your email." : "✓ Reçu envoyé à votre email."}</p>`
-      : `<p class="pay__recu pay__recu--ko">${LANG === "en" ? "Receipt could not be sent." : "Le reçu n'a pas pu être envoyé."}</p>`;
+      ? `<p class="pay__recu">${LANG === "en" ? "✓ Your order has been sent. The shop will confirm after verifying your payment." : "✓ Votre commande a été transmise. La boutique confirmera après vérification de votre paiement."}</p>`
+      : `<p class="pay__recu pay__recu--ko">${LANG === "en" ? "Order could not be sent." : "La commande n'a pas pu être transmise."}</p>`;
   }
   return "";
 }
@@ -560,17 +698,29 @@ async function payerWave() {
   const details = document.getElementById("payDetails");
   if (!lien) { details.innerHTML = msgBientot("Wave"); return; }
   const en = LANG === "en";
-  details.innerHTML = `<div class="pay__box"><p>${en ? "Sending receipt…" : "Envoi du reçu…"}</p></div>`;
-  const ok = await envoyerRecu("Wave");
   let url = lien;
   if (p && p.prixNum) url += (lien.includes("?") ? "&" : "?") + "amount=" + p.prixNum;
   window.open(url, "_blank", "noopener");
+  const montant = p && p.prixNum ? p.prixNum.toLocaleString("fr-FR") + " FCFA" : (p && p.prix) || "";
+  // Le reçu n'est PAS envoyé maintenant : seulement quand la cliente confirme avoir payé.
   details.innerHTML = `
     <div class="pay__box">
-      ${noteRecu(ok)}
-      <p class="pay__steps">${en ? "Finalize the payment in the Wave window." : "Finalisez le paiement dans la fenêtre Wave."}</p>
-      <a class="btn btn--gold" href="${url}" target="_blank" rel="noopener">${en ? "Reopen Wave" : "Rouvrir Wave"}</a>
+      ${montant ? `<p class="pay__line">${en ? "Amount to pay" : "Montant à payer"} : <strong>${montant}</strong></p>` : ""}
+      <p class="pay__steps">${en ? "Pay in the Wave window, then confirm below." : "Payez dans la fenêtre Wave, puis confirmez ci-dessous."}</p>
+      <a class="btn btn--ghost" href="${url}" target="_blank" rel="noopener">${en ? "Reopen Wave" : "Rouvrir Wave"}</a>
+      <button type="button" class="btn btn--gold" id="waveConfirm">${en ? "I've paid — confirm" : "J'ai payé — confirmer"}</button>
     </div>`;
+  const btn = document.getElementById("waveConfirm");
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    btn.textContent = en ? "Sending…" : "Envoi du reçu…";
+    const ok = await envoyerRecu("Wave");
+    details.innerHTML = `
+      <div class="pay__box">
+        ${noteRecu(ok)}
+        <p class="pay__steps">${en ? "Thank you! The shop will contact you to confirm your order after checking the payment." : "Merci ! La boutique vous contactera pour confirmer votre commande après vérification du paiement."}</p>
+      </div>`;
+  });
 }
 
 async function payerOrange() {
@@ -579,21 +729,27 @@ async function payerOrange() {
   const details = document.getElementById("payDetails");
   if (!o.code) { details.innerHTML = msgBientot("Orange Money"); return; }
   const en = LANG === "en";
-  details.innerHTML = `<div class="pay__box"><p>${en ? "Sending receipt…" : "Envoi du reçu…"}</p></div>`;
-  const ok = await envoyerRecu("Orange Money");
   const montant = p && p.prixNum ? p.prixNum.toLocaleString("fr-FR") + " FCFA" : p ? p.prix : "";
+  const coul = modalEtat.couleur ? " en " + modalEtat.couleur : "";
   const waConfirm = lienWhatsApp(
-    `Bonjour Fatouro, j'ai payé le modèle « ${p.nom} »${p.prix ? " (" + p.prix + ")" : ""} par Orange Money. Voici ma preuve de paiement.`
+    `Bonjour Fatouro, j'ai payé le modèle « ${p.nom} »${coul}${p.prix ? " (" + p.prix + ")" : ""} par Orange Money. Voici ma preuve de paiement.`
   );
+  // Le reçu n'est PAS envoyé maintenant : seulement quand la cliente confirme avoir payé.
   details.innerHTML = `
     <div class="pay__box">
-      ${noteRecu(ok)}
       <p class="pay__line">${en ? "Merchant code" : "Code marchand"} : <strong>${o.code}</strong></p>
       ${o.numero ? `<p class="pay__line">${en ? "Number" : "Numéro"} : <strong>${o.numero}</strong></p>` : ""}
       ${montant ? `<p class="pay__line">${en ? "Amount" : "Montant"} : <strong>${montant}</strong></p>` : ""}
       <p class="pay__steps">${en ? "Pay via your Orange Money app (or #144#), then confirm:" : "Payez via l'appli Orange Money (ou #144#), puis confirmez :"}</p>
-      <a class="btn btn--gold" href="${waConfirm}" target="_blank" rel="noopener">${en ? "I've paid — confirm on WhatsApp" : "J'ai payé — confirmer sur WhatsApp"}</a>
+      <a class="btn btn--gold" id="orangeConfirm" href="${waConfirm}" target="_blank" rel="noopener">${en ? "I've paid — confirm on WhatsApp" : "J'ai payé — confirmer sur WhatsApp"}</a>
+      <div id="orangeRecuNote"></div>
     </div>`;
+  // Au clic sur « J'ai payé » : on envoie le reçu (et le lien ouvre WhatsApp normalement).
+  document.getElementById("orangeConfirm").addEventListener("click", async () => {
+    const ok = await envoyerRecu("Orange Money");
+    const note = document.getElementById("orangeRecuNote");
+    if (note) note.innerHTML = noteRecu(ok);
+  });
 }
 
 // Clic / clavier sur une carte produit -> ouvre la fiche

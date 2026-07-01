@@ -1,0 +1,5 @@
+# Fichier contenant des cles/secrets - NE JAMAIS publier
+google-apps-script.gs
+
+# Images temporaires de travail
+_*.jpg

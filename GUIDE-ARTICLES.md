@@ -12,19 +12,19 @@ Tu remplis un **tableur Google** → le site se met à jour tout seul. ✨
 1. Va sur **[sheets.google.com](https://sheets.google.com)** → **+ Nouveau tableur**.
 2. Sur la **première ligne**, écris exactement ces titres de colonnes (une par case) :
 
-| Nom | Catégorie | Prix | Stock | Photo | En vente | Nom EN | Nouveauté |
-|-----|-----------|------|-------|-------|----------|--------|-----------|
+| Nom | Catégorie | Prix | Stock | Photo | En vente | Nom EN | Nouveauté | Couleurs |
+|-----|-----------|------|-------|-------|----------|--------|-----------|----------|
 
 > L'ordre des colonnes n'a pas d'importance, mais les **titres doivent être écrits comme ci-dessus**.
-> Les colonnes **Nom EN** et **Nouveauté** sont facultatives.
+> Les colonnes **Nom EN**, **Nouveauté** et **Couleurs** sont facultatives.
 
 3. À partir de la 2ᵉ ligne, ajoute **un article par ligne**. Exemple :
 
-| Nom | Catégorie | Prix | Stock | Photo | En vente | Nom EN | Nouveauté |
-|-----|-----------|------|-------|-------|----------|--------|-----------|
-| Boubou brodé | Femmes | 25000 | 3 | | oui | Embroidered boubou | oui |
-| Caftan en lin | Hommes | 30000 | 0 | | oui | Linen kaftan | |
-| Tenue enfant wax | Enfants | 15000 | 5 | | oui | | |
+| Nom | Catégorie | Prix | Stock | Photo | En vente | Nom EN | Nouveauté | Couleurs |
+|-----|-----------|------|-------|-------|----------|--------|-----------|----------|
+| Boubou brodé | Femmes | 25000 | 3 | | oui | Embroidered boubou | oui | Rouge, Bleu marine, Beige |
+| Caftan en lin | Hommes | 30000 | 0 | | oui | Linen kaftan | | Blanc, Noir |
+| Tenue enfant wax | Enfants | 15000 | 5 | | oui | | | |
 
 ### Que mettre dans chaque colonne
 - **Nom** : le nom du modèle.
@@ -36,6 +36,10 @@ Tu remplis un **tableur Google** → le site se met à jour tout seul. ✨
 - **En vente** : `oui` pour afficher l'article, `non` pour le **cacher** du site.
 - **Nom EN** *(option)* : le nom en anglais (pour le bouton EN du site).
 - **Nouveauté** *(option)* : `oui` pour que l'article apparaisse aussi dans **« Nouveautés »** sur l'accueil.
+- **Couleurs** *(option)* : les couleurs disponibles du modèle, **séparées par des virgules**,
+  ex. `Rouge, Bleu marine, Beige`. Le site affiche des **pastilles cliquables** sur la fiche ;
+  le client choisit sa couleur, qui part ensuite dans la commande WhatsApp et le reçu.
+  Laisse **vide** si l'article n'a qu'une seule couleur.
 
 ---
 
